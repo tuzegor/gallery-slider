@@ -46,3 +46,62 @@ const galleryItems = [
     description: 'Lighthouse Coast Sea',
   },
 ];
+//==========================================================
+const galleryList = document.querySelector('.js-gallery');
+
+const galleryItemsMarkup = galleryItems.map(elem => {
+  const item = document.createElement('li');
+  item.classList.add('gallery__item');
+  // -------
+  const link = document.createElement('a');
+  link.href = elem.original;
+  link.classList.add('gallery__link');
+  // -------
+  const image = document.createElement('img');
+  image.classList.add('gallery__image');
+  image.src = elem.preview;
+  image.alt = elem.description;
+  image.setAttribute('source', elem.original);
+  //--------
+  link.appendChild(image);
+  item.appendChild(link);
+  console.log(item);
+  return item;
+});
+
+galleryList.append(...galleryItemsMarkup);
+
+console.log(galleryList);
+
+//--------------------------------------------------------
+
+const lightbox = document.querySelector('.js-lightbox');
+const lightboxImage = lightbox.querySelector('.lightbox__image');
+
+galleryList.addEventListener('click', openLightbox);
+
+function openLightbox(event) {
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+  lightbox.classList.add('is-open');
+  event.preventDefault();
+
+  lightboxImage.src = event.target.parentNode.href;
+  window.addEventListener('keydown', closeLightboxOnEsc);
+}
+
+//--------------------------------------------------------
+const closeLightboxButton = document.querySelector('[data-action="close-lightbox"]');
+closeLightboxButton.addEventListener('click', closeLightbox);
+window.removeEventListener('keydown', closeLightboxOnEsc);
+function closeLightbox() {
+  lightbox.classList.remove('is-open');
+  lightboxImage.src = '';
+}
+
+function closeLightboxOnEsc(event) {
+  if (event.code === 'Escape') {
+    closeLightbox();
+  }
+}
