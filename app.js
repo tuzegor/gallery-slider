@@ -49,7 +49,8 @@ const galleryItems = [
 //==========================================================
 const galleryList = document.querySelector('.js-gallery');
 
-const galleryItemsMarkup = galleryItems.map(elem => {
+const galleryItemsMarkup = galleryItems.map((elem, index) => {
+  console.log(index);
   const item = document.createElement('li');
   item.classList.add('gallery__item');
   // -------
@@ -88,20 +89,36 @@ function openLightbox(event) {
   event.preventDefault();
 
   lightboxImage.src = event.target.parentNode.href;
+  window.addEventListener('keydown', scrollImage);
   window.addEventListener('keydown', closeLightboxOnEsc);
 }
 
 //--------------------------------------------------------
 const closeLightboxButton = document.querySelector('[data-action="close-lightbox"]');
 closeLightboxButton.addEventListener('click', closeLightbox);
-window.removeEventListener('keydown', closeLightboxOnEsc);
+
 function closeLightbox() {
   lightbox.classList.remove('is-open');
   lightboxImage.src = '';
 }
-
 function closeLightboxOnEsc(event) {
   if (event.code === 'Escape') {
     closeLightbox();
   }
+}
+
+function scrollImage(event) {
+  //   for (let i = 0; i < galleryItems.length; i++) {
+  //     const element = galleryItems[i];
+  //     if (event.code === 'ArrowRight') {
+  //       console.log(galleryItems.findIndex(lightboxImage.src));
+  //     }
+  //   }
+
+  const arrayForScroll = galleryItems.map((elem, index) => {
+    return elem.original;
+  });
+  console.log(arrayForScroll);
+  console.log(arrayForScroll.findIndex(element => lightboxImage.src));
+  console.log(arrayForScroll.find(element => lightboxImage.src));
 }
