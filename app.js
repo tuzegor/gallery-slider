@@ -78,7 +78,7 @@ console.log(galleryList);
 
 const lightbox = document.querySelector('.js-lightbox');
 const lightboxImage = lightbox.querySelector('.lightbox__image');
-
+let currentSlide = 0;
 galleryList.addEventListener('click', openLightbox);
 
 function openLightbox(event) {
@@ -87,8 +87,13 @@ function openLightbox(event) {
   }
   lightbox.classList.add('is-open');
   event.preventDefault();
-
-  lightboxImage.src = event.target.parentNode.href;
+  console.log(
+    galleryItems.findIndex(galleryItem => galleryItem.original === event.target.parentNode.href),
+  );
+  currentSlide = galleryItems.findIndex(
+    galleryItem => galleryItem.original === event.target.parentNode.href,
+  );
+  lightboxImage.src = galleryItems[currentSlide].original;
   window.addEventListener('keydown', scrollImage);
   window.addEventListener('keydown', closeLightboxOnEsc);
 }
@@ -118,7 +123,21 @@ function scrollImage(event) {
   const arrayForScroll = galleryItems.map((elem, index) => {
     return elem.original;
   });
-  console.log(arrayForScroll);
-  console.log(arrayForScroll.findIndex(element => lightboxImage.src));
-  console.log(arrayForScroll.find(element => lightboxImage.src));
+  if (event.code === 'ArrowRight') {
+    if (currentSlide === galleryItems.length - 1) {
+      return;
+    }
+    currentSlide = currentSlide + 1;
+    console.log(currentSlide);
+    lightboxImage.src = galleryItems[currentSlide].original;
+  }
+
+  if (event.code === 'ArrowLeft') {
+    if (currentSlide === 0) {
+      return;
+    }
+    currentSlide = currentSlide - 1;
+    console.log(currentSlide);
+    lightboxImage.src = galleryItems[currentSlide].original;
+  }
 }
