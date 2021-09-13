@@ -87,13 +87,13 @@ function openLightbox(event) {
   }
   lightbox.classList.add('is-open');
   event.preventDefault();
-  console.log(
-    galleryItems.findIndex(galleryItem => galleryItem.original === event.target.parentNode.href),
-  );
+
   currentSlide = galleryItems.findIndex(
     galleryItem => galleryItem.original === event.target.parentNode.href,
   );
+
   lightboxImage.src = galleryItems[currentSlide].original;
+
   window.addEventListener('keydown', scrollImage);
   window.addEventListener('keydown', closeLightboxOnEsc);
 }
@@ -113,13 +113,6 @@ function closeLightboxOnEsc(event) {
 }
 
 function scrollImage(event) {
-  //   for (let i = 0; i < galleryItems.length; i++) {
-  //     const element = galleryItems[i];
-  //     if (event.code === 'ArrowRight') {
-  //       console.log(galleryItems.findIndex(lightboxImage.src));
-  //     }
-  //   }
-
   const arrayForScroll = galleryItems.map((elem, index) => {
     return elem.original;
   });
